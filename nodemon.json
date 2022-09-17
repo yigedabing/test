@@ -1,0 +1,4 @@
+{
+  "watch": ["./node-api/"],
+  "ext": "js,json,ts"
+}

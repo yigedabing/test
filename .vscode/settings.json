@@ -1,0 +1,8 @@
+{
+  "cSpell.words": ["axios", "rushstack"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    // 自动删除无用的包
+    "source.organizeImports": true
+  }
+}
