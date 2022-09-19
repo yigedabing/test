@@ -8,6 +8,7 @@ const uploadRouter = express.Router({ caseSensitive: true, strict: true })
 
 const staticPath = path.join(process.cwd(), 'node-api', 'public')
 
+// 上传图片
 uploadRouter.post('/upload/images', (req, res) => {
   const form = new multiparty.Form()
 

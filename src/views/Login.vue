@@ -16,8 +16,8 @@ import { computed, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const ruleForm = reactive({
-  userName: '',
-  password: '',
+  userName: 'admin',
+  password: '123456abc',
 })
 const rules = reactive<FormRules>({
   userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
