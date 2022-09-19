@@ -8,39 +8,30 @@ const path = require('path')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 
+const rid = require('connect-rid')
+
 // 启动express
 const startExpress = () => {
-  const port = 3000
+  const port = 5173
   const app = express()
   const ip = address.ip()
-
-  // 跨域CORS设置
-  // app.use((req, res, next) => {
-  //   res.header('Access-Control-Allow-Origin', '*')
-  //   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
-  //   res.header('Access-Control-Allow-Credentials', 'true')
-  //   res.header('Access-Control-Allow-Headers', 'Content-Type,Access-Token,admin-Id,ProjectId')
-  //   res.header('Access-Control-Expose-Headers', '*')
-  //   if (req.method == 'OPTIONS') {
-  //     res.send('')
-  //     return
-  //   }
-  //   next()
-  // })
 
   // 中间件
   app.use(
     cors({
-      origin: 'http://127.0.0.1:5173',
+      origin: '*',
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
       preflightContinue: false,
       optionsSuccessStatus: 204,
-      allowedHeaders: 'Content-Type,Access-Token,admin-Id,ProjectId',
+      allowedHeaders: 'Access-Token,admin-Id,ProjectId,X-Request-Id',
       exposedHeaders: '*',
       maxAge: 2 * 60 * 1000,
       credentials: true,
     })
   )
+
+  app.use(rid())
+
   app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))

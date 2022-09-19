@@ -1,3 +1,5 @@
+import { v4 as uuidV4 } from 'uuid'
+
 export function UUID() {
-  return Math.random().toString(16).substring(2).toUpperCase()
+  return uuidV4()
 }

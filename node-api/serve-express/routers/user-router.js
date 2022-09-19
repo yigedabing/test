@@ -5,9 +5,10 @@ const userRouter = express.Router({ caseSensitive: true, strict: true })
 
 // 查询用户列表
 userRouter.get('/getUserList', (req, res) => {
+  req.setTimeout(1 * 60 * 1000)
+  res.cookie('rememberMe', '1', { expires: new Date(Date.now() + 1 * 60 * 1000), httpOnly: true })
   console.log('Access-Token:', req.get('Access-Token'))
   console.log('cookies:', JSON.stringify(req.cookies))
-  console.log('headers:', JSON.stringify(res.getHeaders()))
   connection.query('select * from table_user', (err, data) => {
     if (err) {
       res.send({
@@ -16,8 +17,6 @@ userRouter.get('/getUserList', (req, res) => {
       })
       return
     }
-    // res.setHeader('Set-Cookie', 'use=admin')
-    // res.setHeader('Set-Cookie', 'password=123456abc')
     res.send({
       code: 200,
       data: data,

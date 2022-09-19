@@ -1,7 +1,6 @@
 import { UUID } from '@/utils'
 import type { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios, { AxiosError } from 'axios'
-import cookie from 'cookiejs'
 
 export interface IDataWithError<T> {
   data: T
@@ -18,7 +17,6 @@ class HttpService {
     this.http = axios.create({
       baseURL: this.baseURL,
       timeout: this.timeout,
-      withCredentials: true,
     })
 
     this.addInterceptors(this.http)
@@ -50,23 +48,23 @@ class HttpService {
     http.interceptors.request.use((config) => {
       config.headers = {
         ...config.headers,
-        'Access-Token': UUID(),
-        projectId: Math.random(),
+        'Access-Token': `${UUID()}-${UUID()}-${UUID()}`,
+        'X-Request-Id': UUID(),
       }
 
       // 验证请求状态码
       config.validateStatus = (status) => {
         return status >= 200 && status < 400
       }
-      // set cookie
-      cookie.set('test', '123', { expires: 30, path: '/', domain: '' })
 
+      console.log(config)
       return config
     })
 
     // 二、响应拦截器
     http.interceptors.response.use(
       (response: AxiosResponse) => {
+        console.log(response)
         return response
       },
       (error) => {
