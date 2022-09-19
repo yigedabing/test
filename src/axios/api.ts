@@ -22,3 +22,7 @@ export function updateUserInfo(param: IUpdateUserInfoParam) {
 export function uploadFile(file: any) {
   return httpService.post('/api/v1/upload/images', file)
 }
+
+export function login(param: { userName: string; password: string }) {
+  return httpService.post<TObject>('/api/v1/auth/login', param)
+}

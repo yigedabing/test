@@ -1,5 +1,6 @@
 const express = require('express')
 const connection = require('../mysql')
+const { setToken, getToken } = require('../token')
 
 const userRouter = express.Router({ caseSensitive: true, strict: true })
 
@@ -65,6 +66,28 @@ userRouter.delete('/deleteUserById/:id', (req, res) => {
 userRouter.post('/updateUserInfo', (req, res) => {
   console.log(req.body)
   res.send('更新用户信息')
+})
+
+userRouter.post('/auth/login', async (req, res) => {
+  const body = req.body
+  console.log('ProjectId', req.headers)
+  try {
+    const token = await setToken({ userName: body.userName, password: body.password, projectId: body.projectId })
+    res.send({
+      code: 200,
+      data: {
+        ...body,
+        token,
+      },
+      msg: 'success',
+    })
+  } catch (error) {
+    res.send({
+      code: -1,
+      data: null,
+      msg: error,
+    })
+  }
 })
 
 module.exports = userRouter

@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["axios", "cookiejs", "rushstack"],
+  "cSpell.words": ["axios", "cookiejs", "expressjwt", "rushstack"],
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     // 自动删除无用的包

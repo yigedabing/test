@@ -1,6 +1,8 @@
+import router from '@/router'
 import { UUID } from '@/utils'
 import type { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios, { AxiosError } from 'axios'
+import { ElMessage } from 'element-plus'
 
 export interface IDataWithError<T> {
   data: T
@@ -48,12 +50,20 @@ class HttpService {
     http.interceptors.request.use((config) => {
       config.headers = {
         ...config.headers,
-        'Access-Token': `${UUID()}-${UUID()}-${UUID()}`,
+        ProjectId: 'project:vite-vue-test',
         'X-Request-Id': UUID(),
+      }
+      const token = localStorage.getItem('token')
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`
       }
 
       // 验证请求状态码
       config.validateStatus = (status) => {
+        if (status === 401) {
+          ElMessage.warning({ message: 'token过期, 重新登录' })
+          router.push('/login')
+        }
         return status >= 200 && status < 400
       }
 

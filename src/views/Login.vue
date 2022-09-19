@@ -6,11 +6,12 @@
     <el-form-item label="密码:" prop="password">
       <el-input v-model="ruleForm.password"></el-input>
     </el-form-item>
-    <el-button type="primary" :disabled="disabled" :loading="loading" @click="login">登录</el-button>
+    <el-button type="primary" :disabled="disabled" :loading="loading" @click="submit">登录</el-button>
   </el-form>
 </template>
 
 <script lang="ts" setup>
+import { login } from '@/axios/api'
 import { FormRules } from 'element-plus'
 import { computed, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -28,10 +29,15 @@ const disabled = computed(() => !ruleForm.userName || !ruleForm.password)
 const loading = ref(false)
 
 const router = useRouter()
-const login = async () => {
+const submit = async () => {
   loading.value = true
-  router.push({ path: '/home', query: { ...ruleForm } })
+  const res = await login({ ...ruleForm })
   loading.value = false
+
+  if (res.code === 200) {
+    localStorage.setItem('token', res.data.token)
+    router.push({ path: '/home', query: { ...ruleForm } })
+  }
 }
 </script>
 
