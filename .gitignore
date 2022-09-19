@@ -13,6 +13,8 @@ dist
 dist-ssr
 coverage
 
+node-api/public/images
+
 /cypress/videos/
 /cypress/screenshots/
 
@@ -24,5 +26,3 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
-node-api/public/
