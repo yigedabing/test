@@ -13,7 +13,7 @@ const setToken = async ({ userName, password, projectId }) => {
   })
 }
 
-const getToken = async (token) => {
+const verifyToken = async (token) => {
   return new Promise((resolve, reject) => {
     if (!token) {
       reject({ error: 'token 为空' })
@@ -29,5 +29,5 @@ const getToken = async (token) => {
 
 module.exports = {
   setToken,
-  getToken,
+  verifyToken,
 }

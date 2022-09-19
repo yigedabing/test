@@ -1,6 +1,6 @@
 const express = require('express')
 const connection = require('../mysql')
-const { setToken, getToken } = require('../token')
+const { setToken } = require('../token')
 
 const userRouter = express.Router({ caseSensitive: true, strict: true })
 
@@ -8,8 +8,6 @@ const userRouter = express.Router({ caseSensitive: true, strict: true })
 userRouter.get('/getUserList', (req, res) => {
   req.setTimeout(1 * 60 * 1000)
   res.cookie('rememberMe', '1', { expires: new Date(Date.now() + 1 * 60 * 1000), httpOnly: true })
-  console.log('Access-Token:', req.get('Access-Token'))
-  console.log('cookies:', JSON.stringify(req.cookies))
   connection.query('select * from table_user', (err, data) => {
     if (err) {
       res.send({
@@ -70,7 +68,6 @@ userRouter.post('/updateUserInfo', (req, res) => {
 
 userRouter.post('/auth/login', async (req, res) => {
   const body = req.body
-  console.log('ProjectId', req.headers)
   try {
     const token = await setToken({ userName: body.userName, password: body.password, projectId: body.projectId })
     res.send({

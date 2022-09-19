@@ -5,8 +5,6 @@ const connection = require('./mysql')
 const path = require('path')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-const { expressjwt } = require('express-jwt')
-const rid = require('connect-rid')
 const registerRouter = require('./registerRouter')
 
 // 启动express
@@ -29,29 +27,9 @@ const startExpress = () => {
     })
   )
 
-  app.use(rid())
-  app.use(
-    expressjwt({
-      secret: 'secretOrPrivateKey',
-      algorithms: ['HS256'],
-    }).unless({ path: ['/api/v1/auth/login'] })
-  )
-
   app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
-
-  app.use(function (err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-      res.status(401).send({
-        code: 401,
-        data: err,
-        msg: 'success',
-      })
-    } else {
-      next(err)
-    }
-  })
 
   // 静态服务目录
   app.use('/static', express.static(path.join(process.cwd(), 'node-api', 'public')))

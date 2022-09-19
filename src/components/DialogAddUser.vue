@@ -49,7 +49,7 @@ const submit = async () => {
     dialogVisible.value = false
     emits('success', true)
   } else {
-    ElMessage({ type: 'error', message: res.msg })
+    ElMessage({ type: 'error', message: res.msg, duration: 10000000 })
   }
 }
 

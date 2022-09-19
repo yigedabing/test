@@ -67,14 +67,12 @@ class HttpService {
         return status >= 200 && status < 400
       }
 
-      console.log(config)
       return config
     })
 
     // 二、响应拦截器
     http.interceptors.response.use(
       (response: AxiosResponse) => {
-        console.log(response)
         return response
       },
       (error) => {
